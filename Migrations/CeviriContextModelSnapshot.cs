@@ -17,7 +17,7 @@ namespace Ceviri.Migrations
 
             modelBuilder.Entity("Ceviri.Models.Book", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -33,20 +33,17 @@ namespace Ceviri.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TranslateID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Year")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ID");
+                    b.HasKey("BookId");
 
                     b.ToTable("Books");
                 });
 
             modelBuilder.Entity("Ceviri.Models.Supporter", b =>
                 {
-                    b.Property<int>("SupporterID")
+                    b.Property<int>("SupporterId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -56,24 +53,28 @@ namespace Ceviri.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("SupporterID");
+                    b.HasKey("SupporterId");
 
                     b.ToTable("Supporters");
                 });
 
             modelBuilder.Entity("Ceviri.Models.Translate", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TranslateId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Support")
+                    b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TranslatorID")
+                    b.Property<int>("TranslatorId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("TranslateId");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("TranslatorId");
 
                     b.ToTable("Translates");
                 });
@@ -97,7 +98,7 @@ namespace Ceviri.Migrations
 
             modelBuilder.Entity("Ceviri.Support", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SupportId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -110,9 +111,71 @@ namespace Ceviri.Migrations
                     b.Property<int>("TranslateId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("SupportId");
+
+                    b.HasIndex("SupporterId");
+
+                    b.HasIndex("TranslateId");
 
                     b.ToTable("Supports");
+                });
+
+            modelBuilder.Entity("Ceviri.Models.Translate", b =>
+                {
+                    b.HasOne("Ceviri.Models.Book", "Book")
+                        .WithMany("Translates")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ceviri.Models.Translator", "Translator")
+                        .WithMany("Translates")
+                        .HasForeignKey("TranslatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Translator");
+                });
+
+            modelBuilder.Entity("Ceviri.Support", b =>
+                {
+                    b.HasOne("Ceviri.Models.Supporter", "Supporter")
+                        .WithMany("Supports")
+                        .HasForeignKey("SupporterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ceviri.Models.Translate", "Translate")
+                        .WithMany("Supports")
+                        .HasForeignKey("TranslateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supporter");
+
+                    b.Navigation("Translate");
+                });
+
+            modelBuilder.Entity("Ceviri.Models.Book", b =>
+                {
+                    b.Navigation("Translates");
+                });
+
+            modelBuilder.Entity("Ceviri.Models.Supporter", b =>
+                {
+                    b.Navigation("Supports");
+                });
+
+            modelBuilder.Entity("Ceviri.Models.Translate", b =>
+                {
+                    b.Navigation("Supports");
+                });
+
+            modelBuilder.Entity("Ceviri.Models.Translator", b =>
+                {
+                    b.Navigation("Translates");
                 });
 #pragma warning restore 612, 618
         }

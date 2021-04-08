@@ -4,8 +4,10 @@
     {
     public class Supporter
     {
-        public int SupporterID { get; set; }
+        public int SupporterId { get; set; }
         public string FirstMidName { get; set; }
         public string LastName { get; set; }
+
+        public ICollection<Support> Supports { get; set; }
     }
 }

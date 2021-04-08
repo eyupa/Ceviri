@@ -8,5 +8,7 @@ namespace Ceviri.Models
         public int TranslatorID { get; set; }
         public string FirstMidName { get; set; }
         public string LastName { get; set; }
+
+        public ICollection<Translate> Translates { get; set; }
     }
 }
