@@ -1,0 +1,47 @@
+@model IEnumerable<Ceviri.Support>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Bounty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supporter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Translate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bounty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Supporter.SupporterId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Translate.TranslateId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SupportId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SupportId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SupportId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
