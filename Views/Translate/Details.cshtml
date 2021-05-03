@@ -1,0 +1,30 @@
+@model Ceviri.Models.Translate
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Translate</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Book)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Book.BookId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Translator)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Translator.TranslatorID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.TranslateId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
